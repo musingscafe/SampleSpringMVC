@@ -1,6 +1,6 @@
 # SampleSpringMVC
-## Sample MVC project using Spring
-## build tool : maven
+### Sample MVC project using Spring
+### build tool : maven
 
 ## Compilation
 ### mvn clean install
