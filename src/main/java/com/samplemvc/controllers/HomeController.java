@@ -29,10 +29,12 @@ public class HomeController {
 
     @RequestMapping(value="/rest", method={RequestMethod.GET})
     public @ResponseBody
-    Map<String, String> sampleRestEndPoint() {
+    Map<String, String> sampleRestEndPoint() throws InterruptedException {
 
         Map<String, String> response = new HashMap<>();
         response.put("status", "success");
+        Thread.sleep(100);
+        System.out.print("*****************Got Request Here ********************");
         return response;
     }
 }
