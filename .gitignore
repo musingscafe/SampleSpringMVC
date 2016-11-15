@@ -1,0 +1,12 @@
+*.iml
+*.ipr
+*.iws
+*.bak
+.classpath
+.project
+**/target/*
+**/logs/
+.idea/
+build/
+target/maven-archiver/pom.properties
+target/samplemvcapp.war
