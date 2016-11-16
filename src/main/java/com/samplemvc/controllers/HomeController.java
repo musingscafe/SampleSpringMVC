@@ -1,22 +1,12 @@
 package com.samplemvc.controllers;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.samplemvc.model.FormData;
-import com.samplemvc.mongo.MongoQueryBuilder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.SystemEnvironmentPropertySource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.samplemvc.model.FormData;
+import com.samplemvc.mongo.MongoQueryBuilder;
 
 /**
  * Created by amitkumar on 13/11/16.
@@ -76,11 +68,15 @@ public class HomeController {
     
     @RequestMapping(value="/search", method={RequestMethod.POST})
     public @ResponseBody Map<String, List<String>> searchInMongo(@RequestBody FormData formData) throws InterruptedException {
-    	
     	final MongoCollection<Document> coll = getMongoCollection();
     	final Document filter = mongoQueryBuilder.buildSearchQuery(formData);
+    	FindIterable<Document> results = coll.find(filter);
     	final Map<String, List<String>> response = new HashMap<>();
-    	
+    	List<String> dataList = new ArrayList<>(0);
+    	for (Document document : results) {
+    		dataList.add(document.toJson());
+		}
+    	response.put("RESPONSE", dataList);
 		return response;
     	
     }
