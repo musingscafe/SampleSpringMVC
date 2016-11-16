@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.samplemvc.model.UserData;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,12 +37,14 @@ public class HomeController {
 	
 	private MongoClient mongoClient = new MongoClient( MONGO_SERVER_HOST , 27017 );
 	
-	@RequestMapping(value="/sample", method={RequestMethod.GET})
+	@RequestMapping(value="/sender", method={RequestMethod.GET})
     public String homepage(Model model) {
+        return "sender";
+    }
 
-        model.addAttribute("message", "Sample MVC!!!");
-
-        return "welcome";
+    @RequestMapping(value="/data", method={RequestMethod.GET})
+    public String showDataPage(Model model) {
+        return "data";
     }
 
     @RequestMapping(value="/rest", method={RequestMethod.GET})
@@ -50,8 +53,16 @@ public class HomeController {
         Map<String, String> response = new HashMap<>();
         response.put("status", "success");
         Thread.sleep(100);
-        System.out.println("*****************Got Request Here ********************");
+        System.out.println("***************** Got Request Here ********************");
 
+        return response;
+    }
+
+    @RequestMapping(value="/sendData", method={RequestMethod.POST})
+    public @ResponseBody Map<String, String> sendMessage(@RequestBody UserData userData) throws InterruptedException {
+        final Map<String, String> response = new HashMap<>();
+        response.put("userData", userData.getFname());
+        System.out.println("***************** Sending Data to Grabber ********************");
         return response;
     }
 
@@ -63,6 +74,19 @@ public class HomeController {
         FindIterable<Document> documents = coll.find();
         final Map<String, String> response = new HashMap<>();
         response.put("insertedObjects", documents.toString());
+        return response;
+    }
+
+    @RequestMapping(value="/fetchData", method={RequestMethod.GET})
+    public @ResponseBody Map<String, List<String>> fetchData() throws InterruptedException {
+        final MongoCollection<Document> coll = getMongoCollection();
+        FindIterable<Document> documents = coll.find();
+        final Map<String, List<String>> response = new HashMap<>();
+        List<String> dataList = new ArrayList<>();
+        for (Document document : documents) {
+            dataList.add(document.toJson());
+        }
+        response.put("RESPONSE", dataList);
         return response;
     }
     
