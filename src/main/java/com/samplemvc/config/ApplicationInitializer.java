@@ -1,4 +1,4 @@
-package main.java.com.samplemvc.config;
+package com.samplemvc.config;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
