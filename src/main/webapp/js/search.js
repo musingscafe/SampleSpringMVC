@@ -16,17 +16,15 @@ $.fn.serializeObject = function() {
 };
 
 function search() {
-    alert($('#searchString').val());
-
     var request = {
-        "key":$('#key').val(),
+        "key":$('#searchKey').val(),
         "operator": $('#operator').val(),
         "searchString": $('#searchString').val()
     }
 
     $.ajax({
             method: "POST",
-            url: "/putInMongo",
+            url: "/search",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -34,21 +32,25 @@ function search() {
             data: JSON.stringify(request)
         })
         .done(function( response ) {
-            var len = response.insertedObjects.length;
+            var len = response.RESPONSE.length;
+            $('#msgcounts').html(len);
             var htmlStr = "";
             for (var i = 0; i < len ; i++) {
-                htmlStr = htmlStr + "<div class='row'> <div class='col-md-1'>"+(i+1)+"</div> <div class='col-md-11'>"+JSON.stringify(response.insertedObjects[i])+"</div> </div>";
-                console.log(response.insertedObjects[i]);
+                htmlStr = htmlStr + "<div class='row'> <div class='col-md-1'>"+(i+1)+"</div> <div class='col-md-11'>"+JSON.stringify(response.RESPONSE[i])+"</div> </div>";
+            }
+            if(len === 0){
+                htmlStr = "<h5 class='green'>No Result Found</h5>";
             }
             $('#searchresults').html(htmlStr);
+
             //alert( "Data Saved: " + response );
         });
 }
 
 function put() {
     var request = {
-        "key":$('#key').val(),
-        "value": $('#value').val()
+        "key":$('#putKey').val(),
+        "value": $('#putValue').val()
     }
 
     $.ajax({
@@ -68,12 +70,12 @@ function put() {
 function remove() {
 
     var request = {
-        "key":$('#key').val()
+        "key":$('#deleteKey').val()
     }
 
     $.ajax({
             method: "POST",
-            url: "/remove",
+            url: "/delete",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
