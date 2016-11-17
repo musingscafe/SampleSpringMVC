@@ -21,7 +21,7 @@
             <h3>Search:</h3>
             <div class="col-md-3">
                 <bold>Key Name:</bold>
-                <input type="text" name="key" id="key" placeholder="Key" />
+                <input type="text" name="key" id="searchKey" placeholder="Key" />
             </div>
 
             <div class="col-md-3">
@@ -34,7 +34,7 @@
                 </select>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <bold> Value to search: </bold>
                 <input type="text" name="searchString" id="searchString" placeholder="Search value" />
             </div>
@@ -58,12 +58,12 @@
         <div class="row">
             <div class="col-md-3">
                 <bold>Key:</bold>
-                <input type="text" name="key" id="key" placeholder="Key" />
+                <input type="text" name="key" id="putKey" placeholder="Key" />
             </div>
 
             <div class="col-md-3">
                 <bold> Value: </bold>
-                <input type="text" name="value" id="value" placeholder="Value" />
+                <input type="text" name="value" id="putValue" placeholder="Value" />
             </div>
         </div>
         <br/>
@@ -82,7 +82,7 @@
         <div class="row">
             <div class="col-md-3">
                 <bold>Key:</bold>
-                <input type="text" name="key" id="key" placeholder="Key to delete" />
+                <input type="text" name="key" id="deleteKey" placeholder="Key to delete" />
             </div>
         </div>
         <br/>

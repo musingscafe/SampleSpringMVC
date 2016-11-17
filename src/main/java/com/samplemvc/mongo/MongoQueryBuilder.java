@@ -15,30 +15,38 @@ public class MongoQueryBuilder {
 	private String CONTAILS_OPERATORS = "contains";
 	private String LESS_OPERATORS = "less";
 	private String GREATER_OPERATORS = "greater";
+	private String DATA_KEY = "key";
+	private String DATA_VALUE = "value";
 	
 	public Document buildSearchQuery(FormData formData) {
 		final Map<String, Object> docObject = new HashMap<>();
 		if(EQUALS_OPERATORS.equalsIgnoreCase(formData.getOperator())){
-			docObject.put(formData.getKey(), new BasicDBObject("$is", formData.getSearchString()));
+			docObject.put(DATA_KEY, new Document("$eq", formData.getKey()));
+			docObject.put(DATA_VALUE, new Document("$eq", formData.getSearchString()));
 		}else if(CONTAILS_OPERATORS.equalsIgnoreCase(formData.getOperator())){
-			docObject.put(formData.getKey(), new BasicDBObject("$regex", ".*" + formData.getSearchString() + ".*" ));
+			docObject.put(DATA_KEY, new Document("$eq", formData.getKey()));
+			docObject.put(DATA_VALUE, new Document("$regex", ".*" + formData.getSearchString() + ".*" ));
 		}else if(LESS_OPERATORS.equalsIgnoreCase(formData.getOperator())){
-			docObject.put(formData.getKey(), new BasicDBObject("$lt", formData.getSearchString()));
+			docObject.put(DATA_KEY, new Document("$eq", formData.getKey()));
+			docObject.put(DATA_VALUE, new Document("$lt", formData.getSearchString()));
 		}else if(GREATER_OPERATORS.equalsIgnoreCase(formData.getOperator())){
-			docObject.put(formData.getKey(), new BasicDBObject("$gt", formData.getSearchString()));
+			docObject.put(DATA_KEY, new Document("$eq", formData.getKey()));
+			docObject.put(DATA_VALUE, new Document("$gt", formData.getSearchString()));
 		}
+
 		return new Document(docObject);
 	}
 
 	public Document buildDeleteQuery(FormData formData) {
 		final Map<String, Object> docObject = new HashMap<>();
-        docObject.put(formData.getKey(), formData.getValue());
+		docObject.put(DATA_KEY, new Document("$eq",formData.getKey()));
 		return new Document(docObject);
 	}
 
 	public Document buildPutQuery(FormData formData) {
 		final Map<String, Object> docObject = new HashMap<>();
-        docObject.put(formData.getKey(), formData.getValue());
+        docObject.put(DATA_KEY, formData.getKey() );
+		docObject.put(DATA_VALUE, formData.getValue());
 		return new Document(docObject);
 	}
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.client.result.DeleteResult;
 import com.samplemvc.model.UserData;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,8 +112,8 @@ public class HomeController {
     	try {
     		final MongoCollection<Document> coll = getMongoCollection();
         	final Document document = mongoQueryBuilder.buildDeleteQuery(formData);
-        	Document deletedElement = coll.findOneAndDelete(document);
-        	if(deletedElement != null){
+            DeleteResult deleteResult = coll.deleteMany(document);
+        	if(deleteResult != null){
         		response = "SUCCESS";
         	}else{
         		response = "RECORD NOT FOUND";
